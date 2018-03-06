@@ -1,26 +1,100 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<head>
-<title>D3 Starter Fun Time!</title>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" href="./styles/simple-style.css">
-</head>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <title>Tab Demo</title>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    </head>
+    <body>
 
-<body>
-	  <p>McHenry VIZA 689 d3js HW #2!</p>
-	<div id="chartDiv"></div>
-		<input name="pauseButton" 
-		type="button" 
-		value="Pause/Play" 
-		onclick="pauseData()" />
-		<input name="resetButton" 
-		type="button" 
-		value="Reset" 
-		onclick="resetData()" />
-	<div id="otherDiv"></div>
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a class="atab" href="#a_tab" data-toggle="tab">Maps</a></li>
+                <li><a class="btab" href="#b_tab" data-toggle="tab">Parallel Coordinate Plot</a></li>
+                <li><a class="ctab" href="#c_tab" data-toggle="tab">Choropleth</a></li>	
+                <li><a class="dtab" href="#d_tab" data-toggle="tab">Text</a></li>					
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="a_tab">
+                    <h1>Hello</h1>
+                    <acontent>
+						<input name="pauseButton" 
+						type="button" 
+						value="Pause/Play" 
+						onclick="pauseData()" />
+						<input name="resetButton" 
+						type="button" 
+						value="Reset" 
+						onclick="resetData()" />
+					
+					</acontent>
+                </div>
+				
+                <div class="tab-pane" id="b_tab">
+                    <h1>Hello Again!</h1>
+                    <bcontent>								
+						<input name="pauseButton" 
+						type="button" 
+						value="Pause/Play" 
+						onclick="pauseData()" />
+						<input name="resetButton" 
+						type="button" 
+						value="Reset" 
+						onclick="resetData()" />
+					</bcontent>
+				</div>
+				
+                <div class="tab-pane" id="c_tab">
+                    <h1>Hello for the third time!</h1>
+                    <ccontent>								
+						<input name="pauseButton" 
+						type="button" 
+						value="Pause/Play" 
+						onclick="pauseData()" />
+						<input name="resetButton" 
+						type="button" 
+						value="Reset" 
+						onclick="resetData()" />
+					</ccontent>
+                </div>
+				
+                <div class="tab-pane" id="d_tab">
+                    <h1>Hello for the fourth time!</h1>
+                    <dcontent>								
+						<input name="pauseButton" 
+						type="button" 
+						value="Pause/Play" 
+						onclick="pauseData()" />
+						<input name="resetButton" 
+						type="button" 
+						value="Reset" 
+						onclick="resetData()" />
+					</dcontent>
+                </div>
+            </div>
+        </div>
 
-	<script src="./libraries/d3.min.js"></script>
-	<script src="./scripts/main.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="http://d3js.org/d3.v3.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+		
 
-</body>
+        <script>
+            $.ajaxSetup ({
+                // Disable caching of AJAX responses
+                // Used when debugging
+                cache: false
+            });
+        
+            $.getScript("a.js");
+            $(".atab").click(function() {
+                $.getScript("a.js");
+            })
+        </script>
+        <script>
+            $(".btab").click(function() {
+                $.getScript("b.js");
+            })
+        </script>
+    </body>
 </html>
