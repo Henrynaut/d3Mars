@@ -1,6 +1,27 @@
 body {
-  font: 14px sans-serif;
-  font-weight: bold;
+  font: 10px sans-serif;
+  margin:0;
+}
+
+/*.line {*/
+    /*fill: none;*/
+    /*stroke: steelblue;*/
+    /*stroke-width: 2px;*/
+/*}*/
+
+.line {
+    fill: none;
+    stroke-width: 3px;
+    stroke-linejoin: "round";
+    stroke-linecap: "round";
+}
+
+.line:hover {
+    stroke-width: 8px;
+}
+
+.area {
+    fill: lightsteelblue;
 }
 
 .chart {
@@ -42,6 +63,11 @@ body {
     fill:brown;
  }
 
+
+ .bar { fill: steelblue; }
+
+
+
  .node {
   stroke: #fff;
   stroke-width: 1.5px;
@@ -51,3 +77,4 @@ body {
   stroke: #999;
   stroke-opacity: .6;
 }
+

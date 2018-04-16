@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<style>
+
+	a:link, a:visited {
+    background-color: #f44336;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+/* html, body, #map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.stations, .stations svg {
+  position: absolute;
+}
+
+.stations svg {
+  width: 60px;
+  height: 20px;
+  padding-right: 100px;
+  font: 10px sans-serif;
+}
+
+.stations circle {
+  fill: brown;
+  stroke: black;
+  stroke-width: 1.5px;
+} */
+.node {
+  cursor: pointer;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+</style>
+
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <title>Mars Landing Site D3js</title>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    </head>
+    <body>
+    <p> <a href="index.html" target="_blank">Home</a> 
+    <a href="index_maps.html" target="_blank">Maps</a>      
+    <a href="index_charts.html" target="_blank">Charts</a>  
+    <a href="index_finish.html" target="_blank">Finish Selection</a></p>
+
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+      <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+<script>
+      var margin = {top: 20, right: 120, bottom: 20, left: 120},
+          width = 960 - margin.right - margin.left,
+          height = 800 - margin.top - margin.bottom;
+
+      var i = 0,
+          duration = 750,
+          root;
+
+      var tree = d3.layout.tree()
+          .size([height, width]);
+
+      var diagonal = d3.svg.diagonal()
+          .projection(function(d) { return [d.y, d.x]; });
+
+      var svg = d3.select("body").append("svg")
+          .attr("width", width + margin.right + margin.left)
+          .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      d3.json("data/treelistdata.json", function(error, Rovers) {
+        if (error) throw error;
+
+        root = Rovers;
+        root.x0 = height / 2;
+        root.y0 = 0;
+
+        function collapse(d) {
+          if (d.children) {
+            d._children = d.children;
+            d._children.forEach(collapse);
+            d.children = null;
+          }
+        }
+
+        root.children.forEach(collapse);
+        update(root);
+      });
+
+      d3.select(self.frameElement).style("height", "800px");
+
+      function update(source) {
+
+        // Compute the new tree layout.
+        var nodes = tree.nodes(root).reverse(),
+            links = tree.links(nodes);
+
+        // Normalize for fixed-depth.
+        nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+        // Update the nodes…
+        var node = svg.selectAll("g.node")
+            .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+        // Enter any new nodes at the parent's previous position.
+        var nodeEnter = node.enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+            .on("click", click);
+
+        nodeEnter.append("circle")
+            .attr("r", 1e-6)
+            .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+        nodeEnter.append("text")
+            .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+            .attr("dy", ".35em")
+            .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+            .text(function(d) { return d.name; })
+            .style("font-size", "30px")
+            .style("fill-opacity", 1e-6);
+
+        // Transition nodes to their new position.
+        var nodeUpdate = node.transition()
+            .duration(duration)
+            .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+        nodeUpdate.select("circle")
+            .attr("r", 4.5)
+            .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+        nodeUpdate.select("text")
+            .style("fill-opacity", 1);
+
+        // Transition exiting nodes to the parent's new position.
+        var nodeExit = node.exit().transition()
+            .duration(duration)
+            .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+            .remove();
+
+        nodeExit.select("circle")
+            .attr("r", 1e-6);
+
+        nodeExit.select("text")
+            .style("fill-opacity", 1e-6);
+
+        // Update the links…
+        var link = svg.selectAll("path.link")
+            .data(links, function(d) { return d.target.id; });
+
+        // Enter any new links at the parent's previous position.
+        link.enter().insert("path", "g")
+            .attr("class", "link")
+            .attr("d", function(d) {
+              var o = {x: source.x0, y: source.y0};
+              return diagonal({source: o, target: o});
+            });
+
+        // Transition links to their new position.
+        link.transition()
+            .duration(duration)
+            .attr("d", diagonal);
+
+        // Transition exiting nodes to the parent's new position.
+        link.exit().transition()
+            .duration(duration)
+            .attr("d", function(d) {
+              var o = {x: source.x, y: source.y};
+              return diagonal({source: o, target: o});
+            })
+            .remove();
+
+        // Stash the old positions for transition.
+        nodes.forEach(function(d) {
+          d.x0 = d.x;
+          d.y0 = d.y;
+        });
+      }
+
+      // Toggle children on click.
+      function click(d) {
+        if (d.children) {
+          d._children = d.children;
+          d.children = null;
+        } else {
+          d.children = d._children;
+          d._children = null;
+        }
+        update(d);
+      }
+      </script>
+      
+        <!-- <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a class="atab" href="#a_tab" data-toggle="tab">Maps</a></li>
+                <li><a class="btab" href="#b_tab" data-toggle="tab">Parallel Coordinate Plot</a></li>
+                <li><a class="ctab" href="#c_tab" data-toggle="tab">Choropleth</a></li>
+                <li><a class="dtab" href="#d_tab" data-toggle="tab">Text</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="a_tab">
+                    <h1>Hello</h1>
+                    <acontent></acontent>
+						<input name="pauseButton"
+						type="button"
+						value="Pause/Play"
+						onclick="pauseData()" />
+						<input name="resetButton"
+						type="button"
+						value="Reset"
+						onclick="resetData()" />
+
+						<div id="chartDiv"></div>
+							<h1>Insert Maps Here</h1>
+              <div id="map"></div>
+              <script src="//maps.google.com/maps/api/js?sensor=true"></script>
+
+
+
+
+                </div>
+
+                <div class="tab-pane" id="b_tab">
+                    <h1>Hello Again!</h1>
+                    <bcontent>
+						<input name="pauseButton"
+						type="button"
+						value="Pause/Play"
+						onclick="pauseData()" />
+						<input name="resetButton"
+						type="button"
+						value="Reset"
+						onclick="resetData()" />
+					</bcontent>
+				</div>
+
+                <div class="tab-pane" id="c_tab">
+                    <h1>Hello for the third time!</h1>
+                    <ccontent>
+						<input name="pauseButton"
+						type="button"
+						value="Pause/Play"
+						onclick="pauseData()" />
+						<input name="resetButton"
+						type="button"
+						value="Reset"
+						onclick="resetData()" />
+					</ccontent>
+                </div>
+
+                <div class="tab-pane" id="d_tab">
+                    <h1>Hello for the fourth time!</h1>
+                    <dcontent>
+
+
+						<input name="pauseButton"
+						type="button"
+						value="Pause/Play"
+						onclick="pauseData()" />
+						<input name="resetButton"
+						type="button"
+						value="Reset"
+						onclick="resetData()" />
+
+					</dcontent>
+                </div>
+            </div>
+        </div> -->
+
+
+
+
+
+
+    </body>
+</html>

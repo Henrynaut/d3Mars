@@ -1,389 +1,362 @@
-//Edited by Neil McHenry, Feb 12th, 2018
-// VIZA  689 D3 HW#2
+;(function() {
+
+	var margin = { top: 10, right: 10, bottom: 100, left: 50 };
+	var width = 1200;
+	var height =800;
+
+
+
+//     var x=d3.scaleLinear()
+// 		.domain([0,width])
+// 		.range([0,width]);
+//
+//     var y=d3.scaleLinear()
+//         .domain([0,height-margin.top-margin.bottom])
+//         .range([0,height-margin.top-margin.bottom]);
+//
+// 	var svg = d3.select("#chartDiv").append("svg")
+// 			.attr("width", width)
+// 			.attr("height", height)
+//         	.style("margin-left", -margin.left + "px")
+//         	.style("margin.right", -margin.right + "px")
+//         	.append("g")
+// 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+//
+//     var grandparent = svg.append("g")  // create objects that contain rect and text
+// 						.attr("class", "grandparent");
+//
+// 		// grandparent.append("rect")
+// 		// 			.attr("y", -margin.top)
+// 		// 			.attr("width", width)
+// 		// 			.attr("height", margin.top)
+// 		// 			.style('fill','steelblue');
+//
+//
+//     var Rect1=grandparent.append("rect")
+//     		.attr("x",0)
+//     		.attr("y",-margin.top)
+//             .attr("width", 570)
+//             .attr("height", 395)
+//             .style('fill','brown')
+// 		.on("click",Zoom2Full);
+//     grandparent.append("text")
+//         		.attr("dx", function(d) { return 500/2 })
+//         		.attr("dy", function(d) { return 395 / 2})
+//         		.attr("font-family", "sans-serif")
+// 				.attr("font-size", "30px")
+// 				.text("Maps");
+//
+//     var Rect2=grandparent.append("rect")
+//         .attr("x",0)
+//         .attr("y",-margin.top+395)
+//         .attr("width", 570)
+//         .attr("height", 395)
+//         .style('fill','Green');
+//
+//     grandparent.append("text")
+//         .attr("dx", function(d) { return 500/2 })
+//         .attr("dy", function(d) { return 395 / 2+395})
+//         .attr("font-family", "sans-serif")
+//         .attr("font-size", "30px")
+//         .text("Graphs");
+//
+//     var Rect3=grandparent.append("rect")
+//         .attr("x",575)
+//         .attr("y",-margin.top)
+//         .attr("width", 570)
+//         .attr("height", 395)
+//         .style('fill','red');
+//     grandparent.append("text")
+//         .attr("dx", function(d) { return 500/2+550 })
+//         .attr("dy", function(d) { return 395 / 2})
+//         .attr("font-family", "sans-serif")
+//         .attr("font-size", "30px")
+//         .text("Choropleth");
+//
+//
+//     var Rect4=grandparent.append("rect")
+//         .attr("x",575)
+//         .attr("y",-margin.top+395)
+//         .attr("width", 570)
+//         .attr("height", 395)
+//         .style('fill','steelblue');
+//      grandparent.append("text")
+//         .attr("dx", function(d) { return 500/2+570 })
+//         .attr("dy", function(d) { return 395 / 2+395})
+//         .attr("font-family", "sans-serif")
+//         .attr("font-size", "30px")
+//         .text("Text");
+//
+//
+//
+// function Zoom2Full() {
+// 	console.log("the rect is selected")
+//
+// 	var SelectedRect=d3.select(this)
+//         .attr("x",0)
+//         .attr("y",-margin.top)
+//         .attr("width", width)
+//         .attr("height", height)
+//         .style('fill','steelblue');
+// }
+//
 
-//Global Variables for Pausing
-var duration = 1000;
-var pause_flag = 0;
 
-//Global settings for the transition type and duration
-var ease_transition = d3.easeLinear;
-var transition_time = 10000;
-var transition_time_shape = transition_time;
-var transition_dist = 5;
-var transition_dist2 = transition_dist;
-var transition_plot = 20;
-var chart;
 
+////////////////////////// Bar charts//////////////////////////////
 
+    var svg = d3.select("#chartDiv").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("margin-left", -margin.left + "px")
+        .style("margin.right", -margin.right + "px")
 
-		var margin = { top: 10, right: 10, bottom: 80, left: 50 };
-		var width = 450;
-		var height = 300;
+    var  g=svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-//define margins for data
-		var dataMargin = {
-			top: 10,
-			right: 10,
-			bottom: 100,
-			left: margin.left + 55 };
+	var x=d3.scaleBand().rangeRound([0,width]).padding(0.1)
+	var y=d3.scaleLinear().rangeRound([height,0]);
+
+
+
+// // import the csv data
+// 	d3.csv("./data/Rovers_temperature.csv",function (error,data) {
+//
+// 			if (error) {
+// 				return console.warn(error);
+// 			}
+//
+//     });
+//
+// 	data.forEach(function (d) { d.Rovers =+d.Rovers;  })
+//
+//
+// //
+// 	x.domain(data.map(function (d) { return d.Rovers;}))
+//     y.domain([0, d3.max(data, function(d) { return d.Pressure; })]);
+
+
+    // add the x Axis
+    svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    // add the y Axis
+    svg.append("g")
+        .call(d3.axisLeft(y));
+
+
+
+
+
+
+
+    // DrawSection1();
+    //
+    // function DrawSection1() {
+    //
+		// var Rect1=svg.selectAll("rect")
+		// 	.attr("x",0)
+		// 	.attr("y",-2*margin.top)
+    //         .attr("width", 250)
+    //         .attr("height", 195)
+    //         .style('fill','yellow')
+    //
+    //
+    //
+    //
+    // }
+
+
+
+
+
+
+
+
+
+
+// 	init();
+//
+// 	function init() {
+//
+// 		chartWidth = width - margin.left - margin.right;
+// 		chartHeight = height - margin.top - margin.bottom;
+//
+// 		// load data from json
+// 		d3.json("./data/stream_1.json", function(error, json) {
+// 			if (error) {
+// 				return console.warn(error);
+// 			} else {
+// 				data = json;
+// 				console.log("JSON loaded");
+//                 //console.log(data);
+// 				initializeChart();
+// 				//createAxes();
+//
+//
+//
+// 			/////////////////////////timer////////////////////////////////////////////////////////
+//                 var tick=0;
+//
+//
+//
+//                 function timerCallback(elapsed) {
+//
+//
+// 					if(elapsed>500) {                   // the time step is 1 second
+//                         tick++;
+//                         //console.log(tick);
+//
+//
+//                         var UpdataDomain = { min:tick, max: tick+40 }; // the domain of the updated x-axis
+//                         //console.debug(UpdataDomain.min)
+//
+//
+//
+//
+// ///////////////////////////////////// update x axis /////////////////////////////////////////////////////////////
+//                        chart.xScale = d3.scaleLinear() // update the scale
+//                             .domain([UpdataDomain.min, UpdataDomain.max]) // the number value
+//                             .range([0, chartWidth]); // the pixel value
+//
+//                         chart.xAxis                  // update the x-axis
+//                             .scale(chart.xScale);
+//
+//                         chart.xAxisContainer.transition().duration(1000)
+//                             .call(chart.xAxis);
+//
+//
+//                         var MyJsonData=[]; // clear the array each time step
+//                         for (var n=0;n<data.length;n++){
+//
+//                             if(data[n].xVal>UpdataDomain.min && data[n].xVal<UpdataDomain.max){ // to check the data in the domain
+//
+//                         		MyJsonData.push(data[n])// only add the dots in the domain range be pushed
+//
+// 							}
+//
+// 						}
+//
+//                        // console.log(MyJsonData);
+//                         drawDots(MyJsonData); // draw the dots and move dots
+//                         timer.restart(timerCallback);
+//
+//                     }
+//
+//                 }
+//
+//                 var timer=d3.timer(timerCallback);
+//
+//
+// 			}
+// 		});
+//
+//
+// 	}//end init
+//
+// 	function initializeChart() {
+// 		svg = d3.select("#chartDiv").append("svg")
+// 		chart=svg.attr("width", width)
+// 			.attr("height", height);
+//
+// 		chart.plotArea = chart.append("g")
+// 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+// 	}
+//
+// 	// function createAxes() {
+//     //
+// 	// 	// x axis
+// 	// 	chart.xScale = d3.scaleLinear()
+// 	// 		.domain([0,40]) // the number value
+// 	// 		.range([0, chartWidth]); // the pixel value
+//     //
+// 	// 	chart.xAxis = d3.axisBottom()
+// 	// 		.tickSizeOuter(0)
+// 	// 		.scale(chart.xScale);
+//     //
+// 	// 	chart.xAxisContainer = chart.append("g")
+// 	// 		.attr("class", "x axis scatter-xaxis")
+// 	// 		.attr("transform", "translate(" + (margin.left) + ", " + (chartHeight + margin.top) + ")")
+// 	// 		.call(chart.xAxis);
+//     //
+// 	// 	// x axis header label
+// 	// 	chart.append("text")
+// 	// 		.attr("class", "x axis scatter-xaxis")
+// 	// 		.style("font-size", "12px")
+// 	// 		.attr("text-anchor", "middle")
+// 	// 		.attr("transform", "translate(" + (margin.left + chartWidth / 2.0) + ", " + (chartHeight + (margin.bottom / 2.0)) + ")")
+// 	// 		.text(xAxisLabelHeader);
+//     //
+// 	// 	// y axis labels
+// 	// 	chart.yScale = d3.scaleLinear()
+// 	// 		.domain([dataYRange.min, dataYRange.max])
+// 	// 		.range([chartHeight, 0]);
+//     //
+// 	// 	chart.yAxis = d3.axisLeft()
+// 	// 		.scale(chart.yScale);
+//     //
+// 	// 	chart.yAxisContainer = chart.append("g")
+// 	// 		.attr("class", "y axis scatter-yaxis")
+// 	// 		.attr("transform", "translate(" + margin.left + ", " + margin.top + ")")
+//     //
+// 	// 		.call(chart.yAxis);
+//     //
+// 	// 	// y axis header label
+// 	// 	chart.append('text')
+// 	// 		.style("font-size", "12px")
+// 	// 		.attr("class", "heatmap-yaxis")
+// 	// 		.attr("text-anchor", "middle")
+// 	// 		.attr("transform", "translate(" + (margin.left / 2.0) + ", " + (chartHeight / 2.0) + ") rotate(-90)")
+// 	// 		.text(yAxisLabelHeader);
+// 	// }
+//
+// 	function drawDots(MyJsonData) {
+// 		// do something with the data here!
+//
+// 		// plot dots
+// 		 var dots = chart.plotArea.selectAll(".dot")
+// 			.data(MyJsonData,function(d,i){return d.id}) // create an unique key
+//
+//         dots.enter().append("circle")
+// 				.attr("class", "dot")
+// 				.attr("cx", function(d) { return chart.xScale(d.xVal); })
+// 				.attr("cy", function(d) { return chart.yScale(d.yVal); })
+// 				.attr("r", circleRadius)
+// 				.style('fill','steelblue')
+// 			.on('mouseover',function () {
+//
+//                 var position = d3.mouse(svg.node());
+//                 var ripples = svg.append("circle")
+//                         .attr("class", "ripple")
+//                         .attr("cx", position[0])
+//                         .attr("cy", position[1])
+//                         .attr("r", 0)
+// 						.style('fill','none')
+//                         .style("stroke-width", 3)
+// 						.style("stroke",'purple')
+//                         .transition()
+//                         .duration(1500)
+//                         .ease(d3.easeQuadIn)
+//                         .attr("r", 200)
+//                         .style("stroke-opacity", 0)
+//                         .on("end", function () {
+//                             d3.select(this).remove();
+//                         });
+//
+//
+//             })
+// 				.on("click", function(d) {
+// 					console.log("circle: ", d.xVal, ", ", d.yVal);
+// 						})
+// 				.merge(dots)
+// 				.attr("cx", function (d) {return chart.xScale(d.xVal)}) // change the x-value
+//
+//
+// 				dots.exit()
+// 					.remove();
+// 	}
+})();
 
 
-		var dataXRange = { min: 40, max: 100 };
-		var dataYRange = { min: 0, max: 100 };
-		var xAxisLabelHeader = "Time";
-		var yAxisLabelHeader = "Y Header";
-		var circleRadius = 4;
-		var circleColor = 'blue';
 
-		var squareColor = 'green';
-
-		var data;
-
-		var chartWidth;
-		var chartHeight;
-
-		// Width and height of data
-
-		var dataWidth = width - 100;
-		var dataHeight = height + 10;
-
-		//Timer setup
-		var tick = 0;
-		jsonData1 = []
-		jsonData2 = []
-		// var timer = d3.timer(timerCallback);
-
-		//Enables Symbols to be used
-		var symbol = d3.symbol();
-
-
-		init();
-
-		var timer = d3.timer(timerCallback);
-
-/* 		var timer = d3.timer(function(duration) {
-            console.log(duration);
-			if (duration > 50) timer.stop();
-			}, 100); */
-			// If data <= duration
-				//Then plot the points
-
-
-
-		// transition();
-		// setInterval(transition, 10000);
-
-		function init() {
-
-			chartWidth = width - margin.left - margin.right;
-			chartHeight = height - margin.top - margin.bottom;
-
-			// load data from json
-			d3.json("./data/stream_1.json",  function(error, stream1) {
-				if (error) {
-					return console.warn(error);
-				} else {
-					data1 = stream1;
-					console.log("JSON loaded");
-					//initializeChart();
-					//createAxes();
-					drawDots();
-
-				}
-			});
-
-					// you could load more data here using d3.json() again...
-
-			d3.json("./data/stream_2.json", function(error, stream2) {
-				if (error) {
-					return console.warn(error);
-				} else {
-					data2 = stream2;
-					console.log("JSON loaded");
-					initializeChart();
-					createAxes();
-
-					drawSquares();
-// Scale Axis in x, with a transition
-					updateAxes();
-
-
-
-				}
-			});
-
-		}//end init
-
-		function initializeChart() {
-			chart = d3.select("#chartDiv").append("svg")
-				.attr("width", width)
-				.attr("height", height);
-
-			chart.plotArea = chart.append("g")
-				.attr("transform", "translate(" + dataMargin.left + "," + margin.top + ")");
-		}
-
-		function createAxes() {
-
-			// x axis
-			chart.xScale = d3.scaleLinear()
-				.domain([dataXRange.min, dataXRange.max])
-				.range([0, chartWidth]);
-
-			chart.xAxis = d3.axisBottom()
-				.tickSizeOuter(0)
-				.scale(chart.xScale);
-
-			chart.xAxisContainer = chart.append("g")
-				.attr("class", "xaxiscon")
-				.attr("transform", "translate(" + (margin.left) + ", " + (chartHeight + margin.top) + ")")
-				.call(chart.xAxis);
-
-			// x axis header label
-			chart.append("text")
-				.attr("class", "x axis scatter-xaxis")
-				.style("font-size", "12px")
-				.attr("text-anchor", "middle")
-				.attr("transform", "translate(" + (margin.left + chartWidth / 2.0) + ", " + (chartHeight + (margin.bottom / 2.0)) + ")")
-				.text(xAxisLabelHeader);
-
-			// y axis labels
-			chart.yScale = d3.scaleLinear()
-				.domain([dataYRange.min, dataYRange.max])
-				.range([chartHeight, 0]);
-
-			chart.yAxis = d3.axisLeft()
-				.scale(chart.yScale);
-
-			chart.yAxisContainer = chart.append("g")
-				.attr("class", "y axis scatter-yaxis")
-				.attr("transform", "translate(" + margin.left + ", " + margin.top + ")")
-				.call(chart.yAxis);
-
-			// y axis header label
-			chart.append('text')
-				.style("font-size", "12px")
-				.attr("class", "heatmap-yaxis")
-				.attr("text-anchor", "middle")
-				.attr("transform", "translate(" + (margin.left / 2.0) + ", " + (chartHeight / 2.0) + ") rotate(-90)")
-				.text(yAxisLabelHeader);
-		}
-
-		function drawDots() {
-			// do something with the data here!
-			//Timer
-			// var timer = d3.timer(function(duration) {
-			// 	console.log(duration);
-			// 	if (duration > 3000) timer.stop();
-			// 	}, 100);
-
-			// While timer is running
-				//If d.xVal <= timer
-				//Plot the circles
-
-			// plot dots
-			var dots = chart.plotArea.selectAll(".blue.dot")
-			//  .filter(function(time) { return d.xVal < time})  //Plot x with time
-				.data(jsonData1, function (d, i) {return d.id })
-				.enter().append("circle")
-					//Change color to Blue
-					.style('fill', 'blue')
-					.attr("class", "blue dot")
-					.attr("cx", function(d) {return chart.xScale(d.xVal) + transition_plot; })
-					.attr("cy", function(d) { return chart.yScale(d.yVal); })
-					.attr("r", circleRadius)
-					.on("mouseover", function(d) {d3.select(this).style("fill", "red");
-					  })
-					.on("mouseout", function(d) {
-						d3.select(this).style("fill", circleColor);
-					  })
-					.on("click", function(d) {
-						var x0 = d.xVal;
-						d3.selectAll(".green.dot").filter(function(d) { return d.xVal == x0 })
-						.style("fill", "yellow");
-					})
-
-
-					//If d.xval < (dataXRange.min+transition_dist)
-								//Then exit
-					//else transition
-
-					.transition().duration(transition_time_shape).ease(ease_transition)
-					.attr("cx", function(d, i) {return chart.xScale(d.xVal-transition_dist); })
-					.remove();
-
-
-					//On Click turn other shape with same x value to yellow
-								//Pseudocode:
-							  //1. on click
-							  //2. If xVal of other class == xVal of this class
-							  //3. Set style to yellow
-
-		}
-
-
-
-		function drawSquares() {
-			// do something with the data here!
-
-			// plot dots
-			var dots = chart.plotArea.selectAll(".green.dot")
-			.data(jsonData2)
-			.enter().append("rect")
-				//Change color to Green
-				.style('fill', 'green')
-				.attr("class", "green dot")
-				.attr("x", function(d) { return chart.xScale(d.xVal) + transition_plot; })
-				.attr("y", function(d) { return chart.yScale(d.yVal); })
-				.attr("width", 2)
-				.attr("height", 2)
-				.on("mouseover", function(d) {
-					d3.select(this).style("fill", "red");
-				  })
-				.on("mouseout", function(d) {
-					d3.select(this).style("fill", squareColor);
-				  })
-
-					//On Click turn other shape with same x value to yellow
-								//Pseudocode:
-							  //1. on click
-							  //2. If xVal of other class == xVal of this class
-							  //3. Set style to yellow
-
-				.on("click", function(d) {
-					var x1 = d.xVal;
-					d3.selectAll(".blue.dot").filter(function(d) { return d.xVal == x1 })
-					.style("fill", "yellow");
-				})
-        //
-				.transition().duration(transition_time_shape).ease(ease_transition)
-				.attr("x", function(d, i) {return chart.xScale(d.xVal-transition_dist); })
-				.remove();
-
-				;
-		}
-
-		// function transition() {
-		// 	chart.xAxisContainer.transition().duration(8500).tween("axis", function(d, i) {
-		// 	  var i = d3.interpolate(dataXRange.min, dataXRange.max);
-		// 	  return function(t) {
-		// 		chart.xScale.domain(i(t));
-		// 		chart.xAxisContainer.call(xAxis);
-		// 	  }
-		// 	});
-		//   }
-
-
-  		function updateAxes() {
-			// Transition the x axis from 40 to 400
-			  chart.xScale.domain([dataXRange.min+transition_dist2, dataXRange.max+transition_dist2 ])
-				chart.select(".xaxiscon")
-									.transition().duration(transition_time).ease(ease_transition)
-									.call(chart.xAxis)
-
-				chart.select("g")
-					.transition().duration(transition_time).ease(ease_transition)
-					.attr("transform", "translate(" + dataMargin.left + "," + margin.top + ")");
-
-
-			// chart.xScale = d3.scaleLinear()
-			// 	.domain([dataXRange.min, 400])
-			// 	.range([0, chartWidth]);
-      //
-			// chart.xAxis = d3.axisBottom()
-			// 	.tickSizeOuter(0)
-			// 	.scale(chart.xScale);
-
-			// svg.select(".chart")
-			// 	.transition()
-			// 		.call(chart.xAxis);
-		}
-
-		function timerCallback(elapsed) {
-			if (elapsed > duration) {
-				tick = tick + 1;
-				//transition_dist = transition_dist + 1;
-				dataMargin.left = dataMargin.left + 3;
-				transition_plot = transition_plot + 4;
-			  transition_dist2 = transition_dist2 + 1;
-				transition_time_shape = transition_time_shape + 370
-
-		//	if (tick <= 10){
-
-			var newThing1 = data1[tick];
-			var newThing2 = data2[tick];
-
-			jsonData1.push(newThing1);
-			jsonData2.push(newThing2);
-		//	}
-
-       if (tick > 10) {
- 				jsonData1.shift();
-				jsonData2.shift();
-      //
-			// newThing1 = data1[10];
-			// newThing2 = data2[10];
-      //
-			// jsonData1.push(newThing1);
-			// jsonData2.push(newThing2);
-      //
-			 }
-
-    	console.log(jsonData1)
-
-
-			drawDots();
-			drawSquares();
-			updateAxes();
-
-			timer.restart(timerCallback);
-			}
-
-		}
-
-
-//////////// Bonus Functions
-
-
-//On button click pause or play the data
-function pauseData(){
-			if (pause_flag == 0){
-
-				console.log("Paused");
-				d3.selectAll(".green.dot").transition();
-				d3.selectAll(".blue.dot").transition();			
-				d3.selectAll("g").transition();
-				d3.selectAll(".xaxiscon").transition();
-				duration = 90000000;
-				pause_flag = 1;
-			}
-
-			else if (pause_flag == 1){
-				console.log("State set to Play");	
-				duration = 1000;
-				d3.selectAll(".green.dot").transition()
-					.remove();
-				d3.selectAll(".blue.dot").transition()
-					.remove();			
-				pause_flag = 0;
-			}
-
-		}	
-
-	//Reset the chart to elapsed time = 0
-	function resetData(){
-		d3.select("#chartDiv").selectAll("svg").remove();
-		dataMargin.left = 105;
-		tick = 0;
-		jsonData1 = [];
-		jsonData2 = [];
-		transition_time = 10000;
-		transition_time_shape = transition_time;
-		transition_dist = 5;
-		transition_dist2 = transition_dist;
-		transition_plot = 20;
-		init();
-		duration = 1000;
-		}
-
-	//end of file

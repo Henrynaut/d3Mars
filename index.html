@@ -1,198 +1,101 @@
 <!DOCTYPE html>
-
-<meta charset="utf-8">
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<html>
+<body>
 <style>
 
-html, body, #map {
-  width: 100%;
-  height: 100%;
+body {
   margin: 0;
-  padding: 0;
+  overflow: hidden;
+  background: rgb(0, 0, 0);
+  font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
 }
 
-.stations, .stations svg {
-  position: absolute;
+canvas {
+  cursor: move;
 }
 
-.stations svg {
-  width: 60px;
-  height: 20px;
-  padding-right: 100px;
-  font: 10px sans-serif;
+svg, canvas, #legend {
+  position:absolute;
+  top:0;
 }
 
-.stations circle {
-  fill: brown;
-  stroke: black;
-  stroke-width: 1.5px;
+.missions path { fill: white }
+
+.polygons path {
+  fill: rgba(0,0,0,0.001); /* to receive mouseover events */
+  stroke: rgba(200,255,220,0.1);
+  stroke-width: 1.5;
+}
+
+.links path {
+  fill: none;
+  stroke: rgba(78, 13, 13, 0.411);
+  stroke-width: 3;
+}
+
+path.glow {
+  fill: none;
+  stroke: rgba(90, 18, 18, 0.7);
+  stroke-width: 1;
+}
+
+#legend {
+  color: white;
+  top: 1em;
+  left: 1em;
+  padding: 0.5em 1em;
+  border-left: solid white 4px;
+  background: rgba(255,255,255,0.1);
+  width: 19em;
+  line-height: 1.4em;
+}
+
+#legend a {
+  color: white;
+}
+
+a:link, a:visited {
+    background-color: #f44336;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+a:hover, a:active {
+    background-color: rgb(216, 187, 187);
 }
 
 </style>
 
+<h1 style="color:white;">Mars Human Landing Site Selection Data </h1>
+<p>
+<a href="index_maps.html"<font size="2" color="white"></font>Maps</a>
+<a href="index_charts.html" target="_blank">Charts</a>
+<a href="index_Cenfei.html" target="_blank">Tree</a> 
+<a href="index_finish.html" target="_blank">Finish Selection</a><br>
 
-<html lang="en">
-    <head>
-    <meta charset="utf-8">
-    <title>Mars Landing Site D3js</title>
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
-    </head>
-    <body>
-
-        <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a class="atab" href="#a_tab" data-toggle="tab">Maps</a></li>
-                <li><a class="btab" href="#b_tab" data-toggle="tab">Parallel Coordinate Plot</a></li>
-                <li><a class="ctab" href="#c_tab" data-toggle="tab">Choropleth</a></li>	
-                <li><a class="dtab" href="#d_tab" data-toggle="tab">Text</a></li>					
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="a_tab">
-                    <h1>Hello</h1>
-                    <acontent>
-						<input name="pauseButton" 
-						type="button" 
-						value="Pause/Play" 
-						onclick="pauseData()" />
-						<input name="resetButton" 
-						type="button" 
-						value="Reset" 
-						onclick="resetData()" />
+<font size="8" color="white"> ---------------------- </font></p>
 					
-						<div id="chartDiv"></div>
-							<h1>Insert Maps Here</h1>
 
-					</acontent>
-                </div>
-				
-                <div class="tab-pane" id="b_tab">
-                    <h1>Hello Again!</h1>
-                    <bcontent>								
-						<input name="pauseButton" 
-						type="button" 
-						value="Pause/Play" 
-						onclick="pauseData()" />
-						<input name="resetButton" 
-						type="button" 
-						value="Reset" 
-						onclick="resetData()" />
-					</bcontent>
-				</div>
-				
-                <div class="tab-pane" id="c_tab">
-                    <h1>Hello for the third time!</h1>
-                    <ccontent>								
-						<input name="pauseButton" 
-						type="button" 
-						value="Pause/Play" 
-						onclick="pauseData()" />
-						<input name="resetButton" 
-						type="button" 
-						value="Reset" 
-						onclick="resetData()" />
-					</ccontent>
-                </div>
-				
-                <div class="tab-pane" id="d_tab">
-                    <h1>Hello for the fourth time!</h1>
-                    <dcontent>								
-						<input name="pauseButton" 
-						type="button" 
-						value="Pause/Play" 
-						onclick="pauseData()" />
-						<input name="resetButton" 
-						type="button" 
-						value="Reset" 
-						onclick="resetData()" />
-					</dcontent>
-                </div>
-            </div>
-        </div>
-		<div id="map"></div>
-		<script src="//maps.google.com/maps/api/js?sensor=true"></script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="http://d3js.org/d3.v3.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-		
-		<script>
 
-		// Create the Google Map…
-		var map = new google.maps.Map(d3.select("#map").node(), {
-		  zoom: 12,
-		  center: new google.maps.LatLng(30.6185, -96.3365),
-		  mapTypeId: google.maps.MapTypeId.TERRAIN
-		});
 
-		// Load the station data. When the data comes back, create an overlay.
-		d3.json("stations.json", function(error, data) {
-		  if (error) throw error;
+<h1 style="color:white;">Introduction to selecting a Mars Human Landing Site:
+						</h1>
+						
+						<p class="intro"><font size="5" color="white">Howdy, your task is to analyze data on the following tabs and make a recommendation for a Mars landing site. Specifically, use the suggested facts below and data on the other tabs of this webpage to select a landing site for a human mission with 12 astronauts the Martian surface between 2035-2036 based on the following scientific facts from NASA:</font></p>
+						
+											
+						<h2 style="color:white;">--- Pre-Play Video of Expert using System (Introduction to System use) ---</h2>
+ 
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/vRWdZL0XHUA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>			
 
-		  var overlay = new google.maps.OverlayView();
+            <script src="//d3js.org/d3.v4.min.js"></script>
+            
+            <script src="./scripts/datarec.js"></script>
+            
 
-		  // Add the container when the overlay is added to the map.
-		  overlay.onAdd = function() {
-			var layer = d3.select(this.getPanes().overlayLayer).append("div")
-				.attr("class", "stations");
-
-			// Draw each marker as a separate SVG element.
-			// We could use a single SVG, but what size would it have?
-			overlay.draw = function() {
-			  var projection = this.getProjection(),
-				  padding = 10;
-
-			  var marker = layer.selectAll("svg")
-				  .data(d3.entries(data))
-				  .each(transform) // update existing markers
-				.enter().append("svg")
-				  .each(transform)
-				  .attr("class", "marker");
-
-			  // Add a circle.
-			  marker.append("circle")
-				  .attr("r", 4.5)
-				  .attr("cx", padding)
-				  .attr("cy", padding);
-
-			  // Add a label.
-			  marker.append("text")
-				  .attr("x", padding + 7)
-				  .attr("y", padding)
-				  .attr("dy", ".31em")
-				  .text(function(d) { return d.key; });
-
-			  function transform(d) {
-				d = new google.maps.LatLng(d.value[1], d.value[0]);
-				d = projection.fromLatLngToDivPixel(d);
-				return d3.select(this)
-					.style("left", (d.x - padding) + "px")
-					.style("top", (d.y - padding) + "px");
-			  }
-			};
-		  };
-
-		  // Bind our overlay to the map…
-		  overlay.setMap(map);
-		});
-
-		</script>
-		
-		
-        <script>
-            $.ajaxSetup ({
-                // Disable caching of AJAX responses
-                // Used when debugging
-                cache: false
-            });
-        
-            $.getScript("a.js");
-            $(".atab").click(function() {
-                $.getScript("a.js");
-            })
-        </script>
-        <script>
-            $(".btab").click(function() {
-                $.getScript("b.js");
-            })
-        </script>
-    </body>
+</body>
 </html>

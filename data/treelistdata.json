@@ -1,0 +1,34 @@
+{"name": "Rovers",
+  "children":
+  [{
+    "name": "Viking 1",
+      "children":
+      [{"name": "Temperature"},
+        {"name": "Pressure"},
+        {"name": "Wind Speed"},
+        {"name": "Elevation"},
+        {"name": "Radiation"}
+      ]
+    },
+    {
+    "name": "Viking 2",
+    "children": [
+      {"name": "Temperature"},
+      {"name": "Pressure"},
+      {"name": "Wind Speed"},
+      {"name": "Elevation"},
+      {"name": "Radiation"}
+    ]
+    },
+    {
+    "name": "Pathfinder",
+    "children": [
+      {"name": "Temperature"},
+      {"name": "Pressure"},
+      {"name": "Wind Speed"},
+      {"name": "Elevation"},
+      {"name": "Radiation"}
+    ]
+    }
+]
+}
