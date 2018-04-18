@@ -28,12 +28,12 @@
   ];
   
 
-  (function drawMouseDots() {
+  function drawMouseDots() {
     "use strict";
 
 //Add code to record code every 90s instead of only on mouse movement
 
-    // document.ontimeupdate = handleMouseMove;
+    // document.onmousemove = handleMouseMove;
                console.log('document_start')
 
     function handleMouseMove(event) {
@@ -72,7 +72,7 @@
 
       //Save x and y mouse location to an array at a certain index count
       mouseData[index] = [String(elapsedTime), String(event.pageX), String(event.pageY)];
-        console.log(mouseData[index]);
+        // console.log(mouseData[index]);
         //Output current time and date
         //    console.log(timeStampInMs, Date.now());
 
@@ -80,7 +80,7 @@
       
 
     }
-  })();
+  };
 
   function exportToCsv(filename, rows) {
     var processRow = function (row) {
@@ -127,8 +127,10 @@
 setTimeout(function() {
     console.log(mouseData);
 
-    exportToCsv('export.csv', mouseData);
+    // exportToCsv('export.csv', mouseData);
 }, 10000);
+
+setInterval(drawMouseDots(), 1000);
 
 // // After 1 second, export the data to a csv file using exportToCsv
 // setTimeout(function() {
@@ -146,6 +148,27 @@ setTimeout(function() {
 // }, 1000);
 
 
+d3.selectAll("div")
+.on("mouseover", function(){
+    d3.select(this)
+    //   .style("background-color", "lightskyblue");
+    console.log('mouseover div');
+
+    // Get current event info
+    console.log(d3.event);
+
+    
+    // Get x & y co-ordinates
+    console.log(d3.mouse(this));
+})
+.on("mouseout", function(){
+    d3.select(this)
+    //   .style("background-color", "cornsilk")
+    console.log('mouseout div');
+
+});
+
+
 function timerCallback(elapsed) {
     if (elapsed > duration) {
         tick = tick + 1;
@@ -153,7 +176,9 @@ function timerCallback(elapsed) {
         if (tick > 10) {
 
         }
-        console.log(event.pageX)
+
+
+        // console.log(clientX)
         // handleMouseMove(tick)
 
          timer.restart(timerCallback);
