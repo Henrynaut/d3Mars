@@ -14,7 +14,7 @@
     //Time setup
     var timer = d3.timer(timerCallback);
     var tick = 0;
-    var duration = 16.666666666;
+    var duration = 16;
     var event = event || window.event; // IE-ism
 
     //Get HTML name from file
@@ -153,7 +153,7 @@ setInterval(drawMouseDots(), 1000);
 //     ]);
 // }, 1000);
 
-//Read DIV Name
+////// Read DIV Name and svg name /////
 // d3.selectAll("div")
 // .on("mouseover", function(){
 //     d3.select(this)

@@ -172,7 +172,7 @@ d3.csv("./data/solarflux.csv", function(error, data) {
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .style("font-size","16px")
-        .text("Solar Flux (W/m^2)");
+        .text("Solar Flux (W/m^2*hz)");
 
     rover2 = g2.selectAll(".rover")
         .data(rovers)
