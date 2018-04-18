@@ -78,3 +78,15 @@ body {
   stroke-opacity: .6;
 }
 
+#fillheight {
+    height: 100vh;
+    background-color: white
+   ;
+    color: black;
+}
+
+#fillwidth {
+    width: 100vw;
+    background-color: green;
+    color: white;
+}

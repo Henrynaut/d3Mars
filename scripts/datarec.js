@@ -8,7 +8,7 @@
 
   //Initialize variables
     index = 0;
-    mouseData = [["TimeInMs", "xVal", "yVal"]];
+    mouseData = [["htmlName", "TimeInMs", "xVal", "yVal"]];
 
 
     //Time setup
@@ -16,6 +16,12 @@
     var tick = 0;
     var duration = 16.666666666;
     var event = event || window.event; // IE-ism
+
+    //Get HTML name from file
+                //Figure out how to read html file name using javascript
+    var htmlname = window.location.pathname;
+    var page = htmlname.split("/").pop();
+    console.log( page );
 
     
     
@@ -33,7 +39,7 @@
 
 //Add code to record code every 90s instead of only on mouse movement
 
-    // document.onmousemove = handleMouseMove;
+    document.onmousemove = handleMouseMove;
                console.log('document_start')
 
     function handleMouseMove(event) {
@@ -71,7 +77,7 @@
       console.log(elapsedTime);
 
       //Save x and y mouse location to an array at a certain index count
-      mouseData[index] = [String(elapsedTime), String(event.pageX), String(event.pageY)];
+      mouseData[index] = [String(htmlname), String(elapsedTime), String(event.pageX), String(event.pageY)];
         // console.log(mouseData[index]);
         //Output current time and date
         //    console.log(timeStampInMs, Date.now());
@@ -127,8 +133,8 @@
 setTimeout(function() {
     console.log(mouseData);
 
-    // exportToCsv('export.csv', mouseData);
-}, 10000);
+    exportToCsv('export.csv', mouseData);
+}, 1000);
 
 setInterval(drawMouseDots(), 1000);
 
@@ -147,26 +153,26 @@ setInterval(drawMouseDots(), 1000);
 //     ]);
 // }, 1000);
 
+//Read DIV Name
+// d3.selectAll("div")
+// .on("mouseover", function(){
+//     d3.select(this)
+//     //   .style("background-color", "lightskyblue");
+//     console.log('mouseover div');
 
-d3.selectAll("div")
-.on("mouseover", function(){
-    d3.select(this)
-    //   .style("background-color", "lightskyblue");
-    console.log('mouseover div');
-
-    // Get current event info
-    console.log(d3.event);
+//     // Get current event info
+//     console.log(d3.event);
 
     
-    // Get x & y co-ordinates
-    console.log(d3.mouse(this));
-})
-.on("mouseout", function(){
-    d3.select(this)
-    //   .style("background-color", "cornsilk")
-    console.log('mouseout div');
+//     // Get x & y co-ordinates
+//     console.log(d3.mouse(this));
+// })
+// .on("mouseout", function(){
+//     d3.select(this)
+//     //   .style("background-color", "cornsilk")
+//     console.log('mouseout div');
 
-});
+// });
 
 
 function timerCallback(elapsed) {
