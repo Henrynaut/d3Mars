@@ -13,30 +13,6 @@
     display: inline-block;
 }
 
-
-/* html, body, #map {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.stations, .stations svg {
-  position: absolute;
-}
-
-.stations svg {
-  width: 60px;
-  height: 20px;
-  padding-right: 100px;
-  font: 10px sans-serif;
-}
-
-.stations circle {
-  fill: brown;
-  stroke: black;
-  stroke-width: 1.5px;
-} */
 .node {
   cursor: pointer;
 }
@@ -56,6 +32,22 @@
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
+/* Tooltip container*/
+
+div.tooltip {
+	position: absolute;
+	text-align: center;
+	width: auto;
+	height: auto;
+	padding: 8px;
+	font: 12px;
+	background: lightsteelblue;
+	border: 0px;
+	border-radius: 6px;
+	pointer-events: none;
+}
+
 </style>
 
 
@@ -66,15 +58,16 @@
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
     </head>
     <body>
-    <p> <a href="index.html" >Home</a> 
-    <a href="index_maps.html" >Maps</a>      
-    <a href="index_charts.html" >Charts</a>  
+    <p> <a href="index.html" >Home</a>
+    <a href="index_maps.html">Maps</a>
+    <a href="index_charts.html" >Charts</a>
+    <a href="index_PCP.html" >Parallel Coordinate Plot</a> 
     <a href="index_finish.html" >Finish Selection</a></p>
 
       <script src="http://d3js.org/d3.v3.min.js"></script>
       <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
       <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-      <!-- <script src="./scripts/datarec.js"></script> -->
+      <!-- <script src="./scripts/datarec.js"></script>  -->
 
 
 <script>
@@ -98,8 +91,13 @@
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+			var div = d3.select("body").append("div")
+			    .attr("class", "tooltip")
+			    .style("opacity", 0);
+
       d3.json("data/treelistdata.json", function(error, Rovers) {
         if (error) throw error;
+				;
 
         root = Rovers;
         root.x0 = height / 2;
@@ -136,7 +134,10 @@
         var nodeEnter = node.enter().append("g")
             .attr("class", "node")
             .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-            .on("click", click);
+            .on("click", click)
+						.on("mouseover", function(d){mouseover(d);})
+						.on("mouseout", mouseout)
+
 
         nodeEnter.append("circle")
             .attr("r", 1e-6)
@@ -146,9 +147,48 @@
             .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
             .attr("dy", ".35em")
             .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-            .text(function(d) { return d.name; })
-            .style("font-size", "30px")
-            .style("fill-opacity", 1e-6);
+						.text(function(d) { return d.name; })
+	  				.style("fill-opacity", 1e-6)
+						.style("font-size", "20px");
+
+		function mouseover(d) {
+				div
+				.text(text)
+				.attr("x",0)
+				.attr("y",0)
+				.transition()
+				.duration(300)
+				.style("opacity", 1)
+				.style("left", (d3.event.pageX ) + "px")
+				.style("top", (d3.event.pageY) + "px")
+				.style("font-size", "14px");
+
+				var text = div.append("text")
+				.attr("class", "text")
+
+				text.append("tspan")
+				// .attr("y",0)
+				// .attr("dx", "0.6em")
+				.text(d.info);
+				//
+				//
+				// text.append("tspan")
+				// // .attr("y",0)
+				// // .attr("dx", "1.2em")
+				// .text(d.veh);
+				//
+				// text.append("tspan")
+				// // .attr("y",0)
+				// // .attr("dx", "1.2em")
+				// .text(d.site);
+		}
+
+		function mouseout() {
+				div.transition()
+				.duration(300)
+				.style("opacity", 1e-6);
+}
+
 
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()
@@ -219,88 +259,6 @@
         update(d);
       }
       </script>
-      
-        <!-- <div class="tabbable">
-            <ul class="nav nav-tabs">
-                <li class="active"><a class="atab" href="#a_tab" data-toggle="tab">Maps</a></li>
-                <li><a class="btab" href="#b_tab" data-toggle="tab">Parallel Coordinate Plot</a></li>
-                <li><a class="ctab" href="#c_tab" data-toggle="tab">Choropleth</a></li>
-                <li><a class="dtab" href="#d_tab" data-toggle="tab">Text</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="a_tab">
-                    <h1>Hello</h1>
-                    <acontent></acontent>
-						<input name="pauseButton"
-						type="button"
-						value="Pause/Play"
-						onclick="pauseData()" />
-						<input name="resetButton"
-						type="button"
-						value="Reset"
-						onclick="resetData()" />
-
-						<div id="chartDiv"></div>
-							<h1>Insert Maps Here</h1>
-              <div id="map"></div>
-              <script src="//maps.google.com/maps/api/js?sensor=true"></script>
-
-
-
-
-                </div>
-
-                <div class="tab-pane" id="b_tab">
-                    <h1>Hello Again!</h1>
-                    <bcontent>
-						<input name="pauseButton"
-						type="button"
-						value="Pause/Play"
-						onclick="pauseData()" />
-						<input name="resetButton"
-						type="button"
-						value="Reset"
-						onclick="resetData()" />
-					</bcontent>
-				</div>
-
-                <div class="tab-pane" id="c_tab">
-                    <h1>Hello for the third time!</h1>
-                    <ccontent>
-						<input name="pauseButton"
-						type="button"
-						value="Pause/Play"
-						onclick="pauseData()" />
-						<input name="resetButton"
-						type="button"
-						value="Reset"
-						onclick="resetData()" />
-					</ccontent>
-                </div>
-
-                <div class="tab-pane" id="d_tab">
-                    <h1>Hello for the fourth time!</h1>
-                    <dcontent>
-
-
-						<input name="pauseButton"
-						type="button"
-						value="Pause/Play"
-						onclick="pauseData()" />
-						<input name="resetButton"
-						type="button"
-						value="Reset"
-						onclick="resetData()" />
-
-					</dcontent>
-                </div>
-            </div>
-        </div> -->
-
-
-
-
-
 
     </body>
 </html>

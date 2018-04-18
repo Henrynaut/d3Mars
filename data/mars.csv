@@ -1,0 +1,5 @@
+Rover,Temp(K),Pressure,Windspeed,Solar Flux
+Viking1,218.32,732.74,3.88,156.25
+Viking2,219.14,822.29,2.38,163.63
+Phoenix,218.8,798.11,2.01,154.17
+Curiosity,206.07,836.61,5.34,122.2

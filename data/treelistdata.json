@@ -1,34 +1,40 @@
 {"name": "Rovers",
   "children":
   [{
-    "name": "Viking 1",
-      "children":
-      [{"name": "Temperature"},
-        {"name": "Pressure"},
-        {"name": "Wind Speed"},
-        {"name": "Elevation"},
-        {"name": "Radiation"}
+    "name": "Viking 1","info": "Launch Date: 1975-08-20,   Launch Vehicle: Titan IIIE-Centaur,   Launch Site: Cape Canaveral, United States",
+      "children" :
+      [{"name": "Temperature", "info": "218.32K"},
+        {"name": "Pressure", "info": "732.74Pa"},
+        {"name": "Wind Speed", "info": "3.88m/s"},
+        {"name": "Solar Flux", "info": "156.25W/m2"}
       ]
     },
     {
-    "name": "Viking 2",
+    "name": "Viking 2","info": "Launch Date: 1975-08-20",
     "children": [
-      {"name": "Temperature"},
-      {"name": "Pressure"},
-      {"name": "Wind Speed"},
-      {"name": "Elevation"},
-      {"name": "Radiation"}
+      {"name": "Temperature", "info": "219.14K"},
+      {"name": "Pressure", "info": "822.29Pa"},
+      {"name": "Wind Speed", "info": "2.38m/s"},
+      {"name": "Solar Flux", "info": "163.63W/m2"}
     ]
     },
     {
-    "name": "Pathfinder",
+    "name": "Phoenix","info": "Launch Date: 1975-08-20",
     "children": [
-      {"name": "Temperature"},
-      {"name": "Pressure"},
-      {"name": "Wind Speed"},
-      {"name": "Elevation"},
-      {"name": "Radiation"}
+      {"name": "Temperature", "info": "218.80K"},
+      {"name": "Pressure", "info": "798.11Pa"},
+      {"name": "Wind Speed", "info": "2.01m/s"},
+      {"name": "Solar Flux", "info": "154.17W/m2"}
     ]
-    }
+  },
+  {
+  "name": "Curiosity","info": "Launch Date: 1975-08-20",
+  "children": [
+    {"name": "Temperature", "info": "206.07K"},
+    {"name": "Pressure", "info": "836.61Pa"},
+    {"name": "Wind Speed", "info": "5.34m/s"},
+    {"name": "Solar Flux", "info": "122.2W/m2"}
+  ]
+}
 ]
 }
