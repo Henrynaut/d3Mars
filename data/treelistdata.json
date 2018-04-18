@@ -1,39 +1,48 @@
 {"name": "Rovers",
   "children":
   [{
-    "name": "Viking 1","info": "Launch Date: 1975-08-20,   Launch Vehicle: Titan IIIE-Centaur,   Launch Site: Cape Canaveral, United States",
+    "name": "Viking 1",
+    "date": "Launch Date: 1975-08-20",
+    "veh" :"Launch Vehicle: Titan IIIE-Centaur",
+    "site": "Launch Site: Cape Canaveral, United States",
       "children" :
-      [{"name": "Temperature", "info": "218.32K"},
-        {"name": "Pressure", "info": "732.74Pa"},
-        {"name": "Wind Speed", "info": "3.88m/s"},
-        {"name": "Solar Flux", "info": "156.25W/m2"}
+      [{"name": "Temperature", "date": "Temperature of Viking 1 is 218.32K", "veh": "Unit: Kelvin", "site": "(0 Kelvin is equivalent to −273.15 °C (−459.67 °F))"},
+        {"name": "Pressure", "date": "Pressure of Viking 1 is 732.74Pa", "veh": "Unit: pascal", "site": ""},
+        {"name": "Wind Speed", "date": "Wind speed of Viking 1 is 3.88m/s", "veh": "Unit: meter/second", "site": ""},
+        {"name": "Solar Flux", "date": "Solar flux of Viking 1 is 156.25W/(m2*Hz)", "veh": "Unit: watt/square meter-hertz", "site": ""}
       ]
     },
     {
-    "name": "Viking 2","info": "Launch Date: 1975-08-20",
+    "name": "Viking 2","date": "Launch Date: 1975-09-09",
+    "veh": "Launch Vehicle: Titan IIIE-Centaur",
+    "site": "Launch Site: Cape Canaveral, United States",
     "children": [
-      {"name": "Temperature", "info": "219.14K"},
-      {"name": "Pressure", "info": "822.29Pa"},
-      {"name": "Wind Speed", "info": "2.38m/s"},
-      {"name": "Solar Flux", "info": "163.63W/m2"}
+      {"name": "Temperature", "date": "Temperature of Viking 2 is 219.14K","veh": "Unit: Kelvin", "site": "(0 Kelvin is equivalent to −273.15 °C (−459.67 °F))"},
+      {"name": "Pressure", "date": "Pressure of Viking 2 is 822.29Pa","veh": "Unit: pascal", "site": ""},
+      {"name": "Wind Speed", "date": "Wind speed of Viking 2 is 2.38m/s", "veh": "Unit: meter/second", "site": ""},
+      {"name": "Solar Flux", "info": "Solar flux of Viking 2 is 163.63W/(m2*Hz)", "veh": "Unit: watt/square meter-hertz", "site": ""}
     ]
     },
     {
-    "name": "Phoenix","info": "Launch Date: 1975-08-20",
+    "name": "Phoenix","date": "Launch Date: 2007-08-04",
+    "veh": "Launch Vehicle: Delta II",
+    "site": "Launch Site: Cape Canaveral, United States",
     "children": [
-      {"name": "Temperature", "info": "218.80K"},
-      {"name": "Pressure", "info": "798.11Pa"},
-      {"name": "Wind Speed", "info": "2.01m/s"},
-      {"name": "Solar Flux", "info": "154.17W/m2"}
+      {"name": "Temperature", "date": "Temperature of Phoenix is 218.80K", "veh": "Unit: Kelvin", "site": "(0 Kelvin is equivalent to −273.15 °C (−459.67 °F))"},
+      {"name": "Pressure", "date": "Pressure of Phoenix is 798.11Pa", "veh": "Unit: pascal", "site": ""},
+      {"name": "Wind Speed", "date": "Wind speed of Phoenix is 2.01m/s", "veh": "Unit: meter/second", "site": ""},
+      {"name": "Solar Flux", "date": "Solar flux of Phoenix is 154.17W/(m2*Hz)", "veh": "Unit: watt/square meter-hertz", "site": ""}
     ]
   },
   {
-  "name": "Curiosity","info": "Launch Date: 1975-08-20",
+  "name": "Curiosity","date": "Launch Date: 2011-11-26",
+  "veh": "Launch Vehicle: Atlas V",
+  "site": "Launch Site: Cape Canaveral, United States, Mass: 750.0 k",
   "children": [
-    {"name": "Temperature", "info": "206.07K"},
-    {"name": "Pressure", "info": "836.61Pa"},
-    {"name": "Wind Speed", "info": "5.34m/s"},
-    {"name": "Solar Flux", "info": "122.2W/m2"}
+    {"name": "Temperature", "date": "Temperature of Curiosity is 206.07K","veh": "Unit: Kelvin", "site": "(0 Kelvin is equivalent to −273.15 °C (−459.67 °F))"},
+    {"name": "Pressure", "date": "Pressure of Curiosity is 836.61Ps", "veh": "Unit: pascal", "site": ""},
+    {"name": "Wind Speed", "date": "Wind speed of Curiosity is 5.34m/s", "veh": "Unit: meter/second", "site": ""},
+    {"name": "Solar Flux", "date": "Solar flux of Curiosity is 122.2W/(m2*Hz)", "veh": "Unit: watt/square meter-hertz", "site": ""}
   ]
 }
 ]

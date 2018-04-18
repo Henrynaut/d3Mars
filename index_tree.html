@@ -37,7 +37,7 @@
 
 div.tooltip {
 	position: absolute;
-	text-align: center;
+	text-align: left;
 	width: auto;
 	height: auto;
 	padding: 8px;
@@ -61,13 +61,13 @@ div.tooltip {
     <p> <a href="index.html" >Home</a>
     <a href="index_maps.html">Maps</a>
     <a href="index_charts.html" >Charts</a>
-    <a href="index_PCP.html" >Parallel Coordinate Plot</a> 
+    <a href="index_PCP.html" >Parallel Coordinate Plot</a>
     <a href="index_finish.html" >Finish Selection</a></p>
 
       <script src="http://d3js.org/d3.v3.min.js"></script>
       <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
       <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-      <script src="./scripts/datarec.js"></script> 
+      <!-- <script src="./scripts/datarec.js"></script> -->
 
 
 <script>
@@ -165,22 +165,9 @@ div.tooltip {
 
 				var text = div.append("text")
 				.attr("class", "text")
+				.attr("data-html", true)
+				.html(d.date +"<br />" + d.veh +"<br />" + d.site);
 
-				text.append("tspan")
-				// .attr("y",0)
-				// .attr("dx", "0.6em")
-				.text(d.info);
-				//
-				//
-				// text.append("tspan")
-				// // .attr("y",0)
-				// // .attr("dx", "1.2em")
-				// .text(d.veh);
-				//
-				// text.append("tspan")
-				// // .attr("y",0)
-				// // .attr("dx", "1.2em")
-				// .text(d.site);
 		}
 
 		function mouseout() {
