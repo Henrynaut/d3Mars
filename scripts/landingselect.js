@@ -34,8 +34,8 @@
   ];
   
 
-//   function drawMouseDots() {
-//     "use strict";
+  function drawMouseDots() {
+    "use strict";
 
 //Add code to record code every 90s instead of only on mouse movement
 
@@ -85,8 +85,8 @@
 
       
 
-    };
-//   };
+    }
+  };
 
   function exportToCsv(filename, rows) {
     var processRow = function (row) {
@@ -185,7 +185,7 @@ function timerCallback(elapsed) {
 
 
         // console.log(clientX)
-        // console.log(tick)
+        // handleMouseMove(tick)
 
          timer.restart(timerCallback);
     }

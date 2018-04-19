@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+
+<html>
+    <body>
+        <div>
 <meta charset="utf-8">
     <script src="../d3-geo-voronoi/dev/d3.v4.js"></script>
     <script src="//d3js.org/d3.v4.min.js"></script>
@@ -92,13 +96,22 @@ path.glow {
 <div id="legend">
 <h1>Time to make a selection!</h1>
 
-<p> <a href=https://docs.google.com/forms/d/e/1FAIpQLSfezOVud09JnKvXKpBLgfpxqom5o_PhVKIh5CqKNsYPlNPCTA/viewform?usp=pp_url&entry.746466469>Experience Questionnaire</a></p>
+<!-- Landing Selection Script -->
+
+<select>
+        <option value="viking1">Viking 1</option>
+        <option value="viking2">Viking 2</option>
+        <option value="curiosity">Curiosity (MSL)</option>
+        <option value="phoenix">Phoenix</option>
+      </select>
+
+<p> <a href=https://docs.google.com/forms/d/e/1FAIpQLSfezOVud09JnKvXKpBLgfpxqom5o_PhVKIh5CqKNsYPlNPCTA/viewform?usp=pp_url&entry.746466469>Submit and contintue to Experience Questionnaire</a></p>
 
 </div>
 
 <!-- <script id="vertex-shader" type="x-shader/x-vertex" src="./scripts/vertex-shader.js"></script> -->
 <!-- <script id="fragment-shader" type="x-shader/x-fragment" src="./scripts/fragment-shader.js"></script> -->
-<!-- <script src="./scripts/canvas.js"></script> -->
+<script src="./scripts/landingselect.js"></script>
 
 
 <script id="vertex-shader" type="x-shader/x-vertex">
@@ -385,7 +398,9 @@ function ready() {
             (found = svg._voronoi.find(c[0], c[1], 0.8 /* radian */ ))) {
 
                 var center = d3.geoCentroid(svg._missions.data()[found.index]);
-
+                
+                //Output the index
+                    console.log(found.index);
                 var circle = d3.geoCircle().center(center),
                     r = d3.geoLength({
                         type: "LineString",
@@ -485,6 +500,13 @@ if (!self.requestAnimationFrame) requestAnimationFrame =
         setTimeout(f, 17);
     };
 </script>
-<script src="./scripts/datarec.js"></script>
+<!-- <script src="./scripts/datarec.js"></script> -->
+
+</div>
+</body>
+</html>
+
+
+
 
 
