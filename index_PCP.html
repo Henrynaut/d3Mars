@@ -74,20 +74,17 @@ svg {
     <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
     </head>
     <body>
-    <p> <a href="index.html" >Home</a>
-    <a href="index_maps.html" >Maps</a>
-    <a href="index_charts.html" >Charts</a>
-    <a href="index_tree.html" >Tree</a> 
-    <a href="index_finish.html" >Finish Selection</a></p>
+    <p> <a href="index.html" target="_blank">Home</a>
+    <a href="index_maps.html" target="_blank">Maps</a>
+    <a href="index_charts.html" target="_blank">Charts</a>
+    <a href="index_finish.html" target="_blank">Finish Selection</a></p>
 
-      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://d3js.org/d3.v4.min.js"></script>
       <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
       <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-      <script src="./scripts/datarec.js"></script> 
-
 
 <body>
-<script src="http://d3js.org/d3.v2.min.js"></script>
+<script src="http://d3js.org/d3.v4.min.js"></script>
 <script>
 
 var margin = {top: 30, right: 40, bottom: 20, left: 200},
@@ -97,41 +94,39 @@ var margin = {top: 30, right: 40, bottom: 20, left: 200},
 var dimensions = [
   {
     name: "Rover",
-    scale: d3.scale.ordinal().rangePoints([0, height]),
+    scale: d3.scalePoint().range([0, height]),
     type: "string"
   },
   {
     name: "Temp(K)",
-    scale: d3.scale.linear().range([height, 0]),
+    scale: d3.scaleLinear().range([height, 0]),
     type: "number"
   },
   {
     name: "Pressure",
-    scale: d3.scale.linear().range([height, 0]),
+    scale: d3.scaleLinear().range([height, 0]),
     type: "number"
   },
   {
     name: "Windspeed",
-    scale: d3.scale.linear().range([height, 0]),
+    scale: d3.scaleLinear().range([height, 0]),
     type: "number"
   },
   {
     name: "Solar Flux",
-    scale: d3.scale.linear().range([height, 0]),
+    scale: d3.scaleLinear().range([height, 0]),
     type: "number"
   },
 ];
 
-var x = d3.scale.ordinal()
+var x = d3.scalePoint()
     .domain(dimensions.map(function(d) { return d.name; }))
-    .rangePoints([0, width]);
+    .range([0, width]);
 
-var line = d3.svg.line()
-    .defined(function(d) { return !isNaN(d[1]); });
+var line = d3.line();
 
-var yAxis = d3.svg.axis()
-    .orient("left");
-    
+var yAxis = d3.axisLeft();
+
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)

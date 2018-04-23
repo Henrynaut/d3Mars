@@ -27,6 +27,10 @@
   font: 10px sans-serif;
 }
 
+.node--internal text {
+  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+
 .link {
   fill: none;
   stroke: #ccc;
@@ -64,46 +68,43 @@ div.tooltip {
     <a href="index_PCP.html" >Parallel Coordinate Plot</a>
     <a href="index_finish.html" >Finish Selection</a></p>
 
-      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://d3js.org/d3.v4.min.js"></script>
       <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
       <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
       <script src="./scripts/datarec.js"></script>
 
 
 <script>
+
       var margin = {top: 20, right: 120, bottom: 20, left: 120},
           width = 960 - margin.right - margin.left,
           height = 800 - margin.top - margin.bottom;
 
-      var i = 0,
+			var svg = d3.select("body").append("svg")
+			    .attr("width", width + margin.right + margin.left)
+			    .attr("height", height + margin.top + margin.bottom)
+			  .append("g")
+			    .attr("transform", "translate("
+			          + margin.left + "," + margin.top + ")");
+
+			var i = 0,
           duration = 750,
           root;
 
-      var tree = d3.layout.tree()
-          .size([height, width]);
-
-      var diagonal = d3.svg.diagonal()
-          .projection(function(d) { return [d.y, d.x]; });
-
-      var svg = d3.select("body").append("svg")
-          .attr("width", width + margin.right + margin.left)
-          .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      var treemap = d3.tree().size([height, width]);
 
 			var div = d3.select("body").append("div")
 			    .attr("class", "tooltip")
 			    .style("opacity", 0);
 
-      d3.json("data/treelistdata.json", function(error, Rovers) {
+      d3.json("data/treelistdata.json", function(error, treedata) {
         if (error) throw error;
-				;
 
-        root = Rovers;
-        root.x0 = height / 2;
-        root.y0 = 0;
+				root = d3.hierarchy(treedata, function(d) { return d.children; });
+				root.x0 = height / 2;
+				root.y0 = 0;
 
-        function collapse(d) {
+				function collapse(d) {
           if (d.children) {
             d._children = d.children;
             d._children.forEach(collapse);
@@ -111,28 +112,32 @@ div.tooltip {
           }
         }
 
-        root.children.forEach(collapse);
-        update(root);
-      });
+				root.children.forEach(collapse);
+				update(root);
+			});
 
-      d3.select(self.frameElement).style("height", "800px");
+
+      // d3.select(self.frameElement).style("height", "800px");
 
       function update(source) {
 
+				// Assigns the x and y position for the nodes
+				var treedata = treemap(root);
+
         // Compute the new tree layout.
-        var nodes = tree.nodes(root).reverse(),
-            links = tree.links(nodes);
+        var nodes = treedata.descendants(),
+            links = treedata.descendants().slice(1);
 
         // Normalize for fixed-depth.
         nodes.forEach(function(d) { d.y = d.depth * 180; });
 
         // Update the nodes…
         var node = svg.selectAll("g.node")
-            .data(nodes, function(d) { return d.id || (d.id = ++i); });
+            .data(nodes);
 
         // Enter any new nodes at the parent's previous position.
-        var nodeEnter = node.enter().append("g")
-            .attr("class", "node")
+        var nodeEnter = node.enter().append('g')
+            .attr('class', 'node')
             .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
             .on("click", click)
 						.on("mouseover", function(d){mouseover(d);})
@@ -140,51 +145,30 @@ div.tooltip {
 
 
         nodeEnter.append("circle")
-            .attr("r", 1e-6)
+						.attr('class','node')
+						.attr('r', 1e-6)
             .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
         nodeEnter.append("text")
             .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
             .attr("dy", ".35em")
             .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-						.text(function(d) { return d.name; })
+						.text(function(d) { return d.data.name; })
 	  				.style("fill-opacity", 1e-6)
 						.style("font-size", "20px");
 
-		function mouseover(d) {
-				div
-				.text(text)
-				.attr("x",0)
-				.attr("y",0)
-				.transition()
-				.duration(300)
-				.style("opacity", 1)
-				.style("left", (d3.event.pageX ) + "px")
-				.style("top", (d3.event.pageY) + "px")
-				.style("font-size", "14px");
-
-				var text = div.append("text")
-				.attr("class", "text")
-				.attr("data-html", true)
-				.html(d.date +"<br />" + d.veh +"<br />" + d.site);
-
-		}
-
-		function mouseout() {
-				div.transition()
-				.duration(300)
-				.style("opacity", 1e-6);
-}
-
 
         // Transition nodes to their new position.
-        var nodeUpdate = node.transition()
+        var nodeUpdate = nodeEnter.merge(node);
+
+				nodeUpdate.transition()
             .duration(duration)
             .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
-        nodeUpdate.select("circle")
+        nodeUpdate.select('circle.node')
             .attr("r", 4.5)
-            .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+            .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; })
+						.attr('curser','pointer');
 
         nodeUpdate.select("text")
             .style("fill-opacity", 1);
@@ -203,36 +187,48 @@ div.tooltip {
 
         // Update the links…
         var link = svg.selectAll("path.link")
-            .data(links, function(d) { return d.target.id; });
+            .data(links, function(d) { return d.id; });
 
         // Enter any new links at the parent's previous position.
-        link.enter().insert("path", "g")
+        var linkEnter = link.enter().insert("path", "g")
             .attr("class", "link")
             .attr("d", function(d) {
               var o = {x: source.x0, y: source.y0};
-              return diagonal({source: o, target: o});
+              return diagonal(o, o);
             });
 
+						// UPDATE
+						  var linkUpdate = linkEnter.merge(link);
         // Transition links to their new position.
-        link.transition()
+        linkUpdate.transition()
             .duration(duration)
-            .attr("d", diagonal);
+            .attr('d', function(d){ return diagonal(d, d.parent) });
 
         // Transition exiting nodes to the parent's new position.
-        link.exit().transition()
-            .duration(duration)
-            .attr("d", function(d) {
-              var o = {x: source.x, y: source.y};
-              return diagonal({source: o, target: o});
-            })
-            .remove();
+				var linkExit = link.exit().transition()
+      .duration(duration)
+      .attr('d', function(d) {
+        var o = {x: source.x, y: source.y}
+        return diagonal(o, o)
+      })
+      .remove();
 
         // Stash the old positions for transition.
         nodes.forEach(function(d) {
           d.x0 = d.x;
           d.y0 = d.y;
         });
-      }
+
+				// Creates a curved (diagonal) path from parent to the child nodes
+  function diagonal(s, d) {
+
+    path = `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
+
+    return path
+  }
 
       // Toggle children on click.
       function click(d) {
@@ -245,6 +241,34 @@ div.tooltip {
         }
         update(d);
       }
+
+			function mouseover(d) {
+
+					// .text(text)
+					// .attr("x",0)
+					// .attr("y",0)
+					div.transition()
+					.duration(300)
+					.style("opacity", 1)
+					.style("left", (d3.event.pageX ) + "px")
+					.style("top", (d3.event.pageY) + "px")
+					.style("font-size", "14px");
+         div.attr("data-html", true)
+				 .html((d.data.date) +"<br/>" + (d.data.veh) +"<br/>" + (d.data.site));
+
+					// var text = div.append("text")
+					// .attr("class", "text")
+					// .attr("data-html", true)
+
+
+			}
+
+			function mouseout() {
+					div.transition()
+					.duration(300)
+					.style("opacity", 1e-6);
+	}
+		}
       </script>
 
     </body>
