@@ -1,5 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+    <head>
+        <!-- Participant ID part 1 start -->
+        <!-- Note: this is within the html head, not body -->
+        <script type="text/javascript">
+            function randID() {
+            document.getElementById("participant_id").innerHTML = 
+                Math.floor((Math.random() * 10000) + 1);
+            }
+        </script>
+        
+        <!-- Participant ID part 1 end -->
+    </head>
 <body>
 <style>
 
@@ -73,14 +85,26 @@ a:hover, a:active {
  <div style="overflow:auto; height:800px;width:900 px;">
 
 <h1 style="color:white;">Mars Human Landing Site Selection Data </h1>
-<p>
+
 <!-- <a href="index_finish.html" >Finish Selection</a><br> -->
 
 					
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSeiVBFsS10QnGjZ4Lrtej09mr6qioAsDlkzSeHBVjqf9iBTsQ/viewform?usp=pp_url&entry.856788678&entry.171575963&entry.1659481876&entry.231289924&entry.757019258&entry.918970187" target="_blank">First, please fill out this Background Questionnaire</a><br>
 
+  <!-- Participant ID part 2 start -->
+      <!-- Calls the random number function and prints it on screen -->
 
-<h1 style="color:white;">Introduction to selecting a Mars Human Landing Site:
+      <p style="color:white; display:inline-block; padding-left: 40px;">Participant ID:</p>
+      <p id="participant_id" style="color:white; display:inline-block; font-size:26px;"> </p> <br>
+      <script type="text/javascript">
+          randID();
+      </script>
+
+
+  <!-- Participant ID part 2 end -->
+
+
+<h1 style="color:white; margin-bottom: 2px">Introduction to selecting a Mars Human Landing Site:
 						</h1>
 						
 						<p class="intro"><font size="5" color="white">Howdy, your task is to analyze data on the following tabs and make a recommendation for a Mars landing site. Specifically, use the suggested facts below and data on the other tabs of this webpage to select a landing site for a human mission with 12 astronauts the Martian surface between 2035-2036 based on the following scientific facts from NASA:</font></p>
