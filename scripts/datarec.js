@@ -88,6 +88,7 @@
     };
 //   };
 
+
   function exportToCsv(filename, rows) {
     var processRow = function (row) {
         var finalVal = '';
@@ -129,12 +130,12 @@
     }
 }
 
-// // After 5 seconds, export the mouse data to a csv file using exportToCsv
-// setTimeout(function() {
-//     console.log(mouseData);
+// After 10 seconds, export the mouse data to a csv file using exportToCsv
+setTimeout(function() {
+    console.log(mouseData);
 
-//     exportToCsv('export.csv', mouseData);
-// }, 1000);
+    exportToCsv('export.csv', mouseData);
+}, 10000);
 
 // setInterval(drawMouseDots(), 1000);
 
