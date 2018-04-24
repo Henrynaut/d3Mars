@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-    <script src="../d3-geo-voronoi/dev/d3.v4.js"></script>
     <script src="//d3js.org/d3.v4.min.js"></script>
     <script src="d3-geo-voronoi.min.js"></script>
 
@@ -19,10 +18,11 @@
 	a:link, a:visited {
     background-color: #f44336;
     color: white;
-    padding: 14px 25px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    font-size:14px;
 }
 
 
@@ -91,7 +91,7 @@ path.glow {
 </svg>
 <div id="legend">
 <h1>VIZA 689 Mars</h1>
-<p>Mars Landing Site Overview<br> 
+<p>Landing Site Location Overview<br> 
     <a href="index.html" >Home</a> 
     <a href="index_charts.html" >Charts</a> 
     <a href="index_tree.html" >Tree</a> 
@@ -301,7 +301,7 @@ function readySoon() {
     // https://raw.githubusercontent.com/rhodges/hodgimoto/master/app/layers/mars_landings.geojson
     d3.json('mars_landings.geojson', function (err, missions) {
 
-missions.features.push({"type":"Feature","properties":{"OBJECTID":-1,"ID":-1,"NAME":"Schiaparelli","X_COORD":0.2,"Y_COORD":357.5,"FULL_NAME":"ExoMars Schiaparelli EDM lander","NSSDC_ID":"2016-017A","WEB_LINK":"https://en.wikipedia.org/wiki/Schiaparelli_EDM_lander","COUNTRY":"Europe","YEAR":2016},"geometry":{"type":"MultiPoint","coordinates":[[0.2, 357.5]]}})
+// missions.features.push({"type":"Feature","properties":{"OBJECTID":-1,"ID":-1,"NAME":"Schiaparelli","X_COORD":0.2,"Y_COORD":357.5,"FULL_NAME":"ExoMars Schiaparelli EDM lander","NSSDC_ID":"2016-017A","WEB_LINK":"https://en.wikipedia.org/wiki/Schiaparelli_EDM_lander","COUNTRY":"Europe","YEAR":2016},"geometry":{"type":"MultiPoint","coordinates":[[0.2, 357.5]]}})
 
         var v = svg._voronoi = d3.geoVoronoi()(missions),
             polygons = v.polygons(),
@@ -390,6 +390,9 @@ function ready() {
 
                 var center = d3.geoCentroid(svg._missions.data()[found.index]);
 
+                // //Output the index of the landing site
+                // console.log(found.index);
+
                 var circle = d3.geoCircle().center(center),
                     r = d3.geoLength({
                         type: "LineString",
@@ -410,6 +413,8 @@ function ready() {
 
                 var p = svg._missions.data()[found.index].properties;
                 d3.select('#legend h1').text(p.NAME);
+                    //Output the name of the found index
+                    console.log(p.NAME);
                 d3.select('#legend p').html(
                     '<a href="' + p.WEB_LINK + '">' + p.FULL_NAME + '</a>' + 
                     '<br>' +

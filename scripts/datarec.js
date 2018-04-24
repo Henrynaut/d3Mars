@@ -43,7 +43,7 @@
                console.log('document_start')
 
     function handleMouseMove(event) {
-               console.log('HandleMouseStart')
+            //    console.log('HandleMouseStart')
 
       event = event || window.event; // IE-ism
 
@@ -74,7 +74,7 @@
 
       //Calculate and output elapsed time
       elapsedTime = Date.now()-timeStampInMs;
-      console.log(elapsedTime);
+    //   console.log(elapsedTime);
 
       //Save x and y mouse location to an array at a certain index count
       mouseData[index] = [String(htmlname), String(elapsedTime), String(event.pageX), String(event.pageY)];
