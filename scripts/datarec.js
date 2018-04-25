@@ -131,7 +131,7 @@
 }
 
 // After 10 seconds, export the mouse data to a csv file using exportToCsv
-setTimeout(function() {
+setInterval(function() {
     console.log(mouseData);
 
     exportToCsv('export.csv', mouseData);

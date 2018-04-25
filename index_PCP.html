@@ -170,6 +170,7 @@ d3.csv("data/mars.csv", function(data) {
       .attr("class", "title")
       .attr("text-anchor", "middle")
       .attr("y", -9)
+	  .attr("fill", "black")
       .text(function(d) { return d.name; });
 
   var ordinal_labels = svg.selectAll(".axis text")
