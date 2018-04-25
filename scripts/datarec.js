@@ -130,12 +130,37 @@
     }
 }
 
-// After 10 seconds, export the mouse data to a csv file using exportToCsv
-setInterval(function() {
-    console.log(mouseData);
+//When Key "1" is pressed, run exportToCsv Function:
 
-    exportToCsv('export.csv', mouseData);
-}, 10000);
+    //Event Listener Code
+    var addEvent = document.addEventListener ? function(target,type,action){
+        if(target){
+            target.addEventListener(type,action,false);
+        }
+    } : function(target,type,action){
+        if(target){
+            target.attachEvent('on' + type,action,false);
+        }
+    }
+
+    //Event keypress detection
+    addEvent(document,'keydown',function(e){
+        e = e || window.event;
+        var key = e.which || e.keyCode;
+        //If keycode 49 (the physical 1 key) is detected
+        if(key===49){
+            //Run this script
+            exportToCsv('output.csv', mouseData);
+        }
+    });
+
+
+// After 10 seconds, export the mouse data to a csv file using exportToCsv
+// setInterval(function() {
+//     console.log(mouseData);
+
+//     exportToCsv('export.csv', mouseData);
+// }, 10000);
 
 // setInterval(drawMouseDots(), 1000);
 
