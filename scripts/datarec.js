@@ -4,24 +4,27 @@
 
   //Define Global Variables
 
-  var dot, eventDoc, doc, body, pageX, pageY, index, mouseData, elapsedTime;
+  var dot, eventDoc, doc, body, pageX, pageY, index, mouseData, elapsedTime, timeData;
 
   //Initialize variables
+    timeIndex = 0;
     index = 0;
     mouseData = [["htmlName", "TimeInMs", "xVal", "yVal"]];
+    timeData = [["htmlName", "TickValue"]];
+
 
 
     //Time setup
     var timer = d3.timer(timerCallback);
-    var tick = 0;
-    var duration = 16;
+    var tick = 5;
+    var duration = 100;
     var event = event || window.event; // IE-ism
 
     //Get HTML name from file
                 //Figure out how to read html file name using javascript
     var htmlname = window.location.pathname;
     var page = htmlname.split("/").pop();
-    console.log( page );
+    // console.log( page );
 
     
     
@@ -130,6 +133,15 @@
     }
 }
 
+//Constantly output time and html name
+
+        setInterval(function() {
+            timeData[timeIndex] =[String(htmlname), String(elapsedTime), String(tick), String(timeStampInMs), String("---Note: Column1. HTML NAME 2.Elapsed Time, 3.Tick Count 4.Global start Time Stamp in ms/Xpos 5.Description/Ypos---")];
+
+            console.log(timeData);
+        }, 100);
+
+
 //When Key "1" is pressed, run exportToCsv Function:
 
     //Event Listener Code
@@ -150,6 +162,7 @@
         //If keycode 49 (the physical 1 key) is detected
         if(key===49){
             //Run this script
+            mouseData[0] = timeData;
             exportToCsv('output.csv', mouseData);
         }
     });
@@ -164,6 +177,7 @@
 
 // setInterval(drawMouseDots(), 1000);
 
+// Example of how to format the array for csv file export data
 // // After 1 second, export the data to a csv file using exportToCsv
 // setTimeout(function() {
 //     exportToCsv('export.csv', [
@@ -184,7 +198,7 @@
 // .on("mouseover", function(){
 //     d3.select(this)
 //     //   .style("background-color", "lightskyblue");
-//     console.log('mouseover div');
+//     // console.log('mouseover div');
 
 //     // Get current event info
 //     console.log(d3.event);
@@ -196,14 +210,14 @@
 // .on("mouseout", function(){
 //     d3.select(this)
 //     //   .style("background-color", "cornsilk")
-//     console.log('mouseout div');
+//     // console.log('mouseout div');
 
 // });
 
 
 function timerCallback(elapsed) {
     if (elapsed > duration) {
-        tick = tick + 1;
+        tick = tick + 0.1;
         
         if (tick > 10) {
 
@@ -211,7 +225,7 @@ function timerCallback(elapsed) {
 
 
         // console.log(clientX)
-        // console.log(tick)
+        console.log(tick)
 
          timer.restart(timerCallback);
     }
